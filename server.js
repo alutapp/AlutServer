@@ -1,54 +1,46 @@
-var http = require('http');
-var fs = require('fs');
-var path = require('path');
 
-http.createServer(function (request, response) {
-    console.log('request ', request.url);
 
-    var filePath = '.' + request.url;
-    if (filePath == './') {
-        filePath = './index.html';
-    }
 
-    var extname = String(path.extname(filePath)).toLowerCase();
-    var mimeTypes = {
-        '.html': 'text/html',
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.json': 'application/json',
-        '.png': 'image/png',
-        '.jpg': 'image/jpg',
-        '.gif': 'image/gif',
-        '.wav': 'audio/wav',
-        '.mp4': 'video/mp4',
-        '.woff': 'application/font-woff',
-        '.ttf': 'application/font-ttf',
-        '.eot': 'application/vnd.ms-fontobject',
-        '.otf': 'application/font-otf',
-        '.svg': 'application/image/svg+xml'
-    };
+const MongoClient = require('mongodb').MongoClient
+const express = require('express')
+const bodyParser= require('body-parser')
+const app = express()
 
-    var contentType = mimeTypes[extname] || 'application/octet-stream';
+// TODO : delete the next line in prod - is only for test the db
+app.set('view engine', 'ejs')
 
-    fs.readFile(filePath, function(error, content) {
-        if (error) {
-            if(error.code == 'ENOENT'){
-                fs.readFile('./404.html', function(error, content) {
-                    response.writeHead(200, { 'Content-Type': contentType });
-                    response.end(content, 'utf-8');
-                });
-            }
-            else {
-                response.writeHead(500);
-                response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
-                response.end();
-            }
-        }
-        else {
-            response.writeHead(200, { 'Content-Type': contentType });
-            response.end(content, 'utf-8');
-        }
-    });
+app.use(bodyParser.urlencoded({extended: true}))
 
-}).listen(8125);
-console.log('Server running at http://127.0.0.1:8125/');
+var db
+
+
+// MogoDb configure
+MongoClient.connect('mongodb://alutapp:alutapp1234@ds019063.mlab.com:19063/alutappdb', (err, client) => {
+  if (err) return console.log(err)
+  db = client.db('alutappdb') 
+  app.listen(3000, () => {
+    console.log('listening on 3000')
+  })
+})
+
+
+
+  app.post('/quotes', (req, res) => {
+    db.collection('quotes').save(req.body, (err, result) => {
+      if (err) return console.log(err)
+  
+      console.log('saved to database')
+      res.redirect('/')
+    })
+  })
+
+
+  app.get('/', (req, res) => {
+    db.collection('quotes').find().toArray((err, result) => {
+      if (err) return console.log(err)
+
+      // TODO : delete the next line in prod - is only for test the db
+      res.render('index.ejs', {quotes: result})
+    })
+  })
+
