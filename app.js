@@ -5,13 +5,16 @@ var express = require('express')
 
 var app = module.exports = express();
 
+var logger = require('./logs/logger');
+var sprintf = require('sprintf-js').sprintf;
 
    var server = app.listen(3000, function () {
 
     var host = server.address().address
     var port = server.address().port
   
-    console.log("Example app listening at http://%s:%s", host, port)
+	logger.setLevel('debug');
+    logger.debug(sprintf("Example app listening at http://%s:%s", host, port))
   })
 
  app.get('/SignIn/:email/:password', userServices.SignIn);
