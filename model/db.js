@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
    // , userDao = require('./../dataAccess/userDao')
     
 //TODO: change connection string
-var dbURI = 'mongodb://localhost/ConnectionTest'; 
+var dbURI = 'mongodb://alutapp:alutapp1234@ds019063.mlab.com:19063/alutappdb'; 
 
 mongoose.connect(dbURI); 
 
