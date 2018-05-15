@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
     , User = require('./../model/User')
 module.exports = {
 
-    getUser: function (email, callback) {
+    getUserByEmailAndPassword: function(email, password, callback) {
         console.log('userDao.js : getUser with mail ' + email);
         User.find({'email': email}, {}, function (err, user) {
             callback(null, user[0]);

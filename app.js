@@ -1,22 +1,10 @@
-var http = require('http'),
-    db = require('./model/db'),
-    user = require('./dataAccess/userDao')
-    const express = require('express')
-    const app = express()
+var express = require('express')
+    , http = require('http')
+    , userServices = require('./service/userServices')
+    , db = require('./model/db');
 
+var app = module.exports = express();
 
- 
-
-    app.get("/SignIn/:email", function (req, res) {
-      user.getUser(req.params.email ,function(err, data){
-        console.log("**user ** ="+  data);
-
-        res.send(data);
-
-        if (err) {
-          console.log('*** Err' + err);
-      }});
-   })
 
    var server = app.listen(3000, function () {
 
@@ -24,8 +12,10 @@ var http = require('http'),
     var port = server.address().port
   
     console.log("Example app listening at http://%s:%s", host, port)
-  
   })
+
+  app.get('/SignIn/:email/:password', userServices.GetUserByEmailAndPassword);
+
 
   //user.createUser(function(err){
     //if (err) {
