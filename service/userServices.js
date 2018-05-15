@@ -1,6 +1,6 @@
 
-var userDao = require('./dataAccess/userDao');
-
+var userDao = require('../dataAccess/userDao');
+/*
 exports.SignIn = function (req, res) {
     console.log('SignIn email: ' + req.params.email+ ' password '+ req.params.password);
     userDao.getUserByEmailAndPassword(req.params.email,  req.params.password, function(err, user) {
@@ -15,4 +15,4 @@ exports.SignIn = function (req, res) {
         res.json(user);
       }
     });
-  };
+  };*/

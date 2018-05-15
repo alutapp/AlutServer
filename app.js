@@ -14,7 +14,7 @@ var app = module.exports = express();
     console.log("Example app listening at http://%s:%s", host, port)
   })
 
-  app.get('/SignIn/:email/:password', userServices.GetUserByEmailAndPassword);
+ //app.get('/SignIn/:email/:password', userServices.GetUserByEmailAndPassword);
 
 
   //user.createUser(function(err){
