@@ -1,30 +1,42 @@
-var express = require('express')
-    , http = require('http')
-    , userServices = require('./service/userServices')
-    , db = require('./model/db');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-var app = module.exports = express();
+// create express app
+const app = express();
 
-var logger = require('./logs/logger');
-	logger.setLevel('debug');
-	
-var sprintf = require('sprintf-js').sprintf;
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
 
-/*
-   var server = app.listen(3000, function () {
+// parse requests of content-type - application/json
+app.use(bodyParser.json())
 
-    var host = server.address().address
-    var port = server.address().port
-  
-    logger.debug(sprintf("Example app listening at http://%s:%s", host, port))
-  })
-*/
- app.get('/SignIn/:email/:password', userServices.SignIn);
- app.get('/IsEmailExist/:email', userServices.IsEmailExist);
+// Configuring the database
+const dbConfig = require('./config/database.config.js');
+const mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
 
-  //user.createUser(function(err){
-    //if (err) {
-     // console.log('*** Err' + err);
-   // }});
+// Connecting to the database
+mongoose.connect(dbConfig.url)
+.then(() => {
+    console.log("Successfully connected to the database");    
+}).catch(err => {
+    console.log('Could not connect to the database. Exiting now...');
+    process.exit();
+});
 
+app.get('/', function(request, response){
+    response.sendfile('index.html');
+});
+
+// ........
+
+// Require Notes routes
+require('./app/routes/alut.routes.js')(app);
+
+// ........
+
+// listen for requests
+app.listen(3000, () => {
+    console.log("Server is listening on port 3000");
+});
