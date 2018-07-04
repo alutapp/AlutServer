@@ -2,6 +2,11 @@
 var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , User = require('./../model/User')
+    var logger = require('../logs/logger');
+	logger.setLevel('debug');
+	
+//var sprintf = require('sprintf-js').sprintf;
+
 
     
 module.exports = {
@@ -22,18 +27,27 @@ module.exports = {
         logger.debug('test create user ');
     
         var user = new User();
-        user.idNumber= "11",
-        user.password = "password";
-        user.firstName= "mor";
-        user.lastName = "zohar";
-        user.email = "m@gmail.com";    
+        user.idNumber= '123',
+        user.password = req.body.password;
+        user.firstName= req.body.firstName;
+        user.lastName = req.body.lastName;
+        user.email = req.body.email;    
 
-        user.save(function (err) {
-            if (err) {
-                logger.error('user  save err: ' + err);
-                return callback(err);
-            }
-         });
+        user.save(user, (err, result) => {
+            if (err) return console.log(err)
+        
+            console.log('saved to database')
+            res.redirect('/')
+          })
+        // save(function (err) {
+        //     if (err) {
+        //         logger.error('user  save err: ' + err);
+        //         return callback(err);
+        //     }
+            
+            
+        //  });
+         
         }
      }
 
