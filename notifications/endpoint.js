@@ -49,7 +49,7 @@ function sendAndroid(devices) {
         }
     });
 
-    let sender = new gcm.sender('<YOUR_API_KEY_HERE>');
+    let sender = new gcm.sender('AIzaSyD4Wu64CkFPMM6nJOF5vxhcF4pZ_TCa6jU');
 
     sender.send(message, {
         registrationTokens : devices
