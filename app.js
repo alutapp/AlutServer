@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 // create express app
 const app = express();
 
+// Require routes
+var routes = require('./app/routes/alut.routes.js')(app);
+
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -14,9 +17,11 @@ app.use(bodyParser.json())
 const dbConfig = require('./config/database.config.js');
 const mongoose = require('mongoose');
 
+
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
+
 mongoose.connect(dbConfig.url)
 .then(() => {
     console.log("Successfully connected to the database");    
@@ -25,16 +30,24 @@ mongoose.connect(dbConfig.url)
     process.exit();
 });
 
+
+
+
 app.get('/', function(request, response){
-    response.sendfile('index.html');
+
 });
 
+app.get('/approved', function(request, response){
+
+});
+
+
+
+
+
+
 // ........
 
-// Require Notes routes
-require('./app/routes/alut.routes.js')(app);
-
-// ........
 
 // listen for requests
 app.listen(3000, () => {
