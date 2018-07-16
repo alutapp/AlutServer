@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
 
 
 var userSchema = new Schema({
-    idNumber : {
+    id : {
         type : String, required: true, trim: true
     },
     firstName : {
@@ -24,6 +24,7 @@ var userSchema = new Schema({
         enum: ["male", "female"]
     },
     phone : String,
+    childsId : [{type: String,required:true}],
     child : {
         type: ObjectId,
         ref: 'Child'    

@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // Require routes
-var routes = require('./app/routes/alut.routes.js')(app);
+//var routes = require('./app/routes/alut.routes.js')(app);
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -15,6 +15,7 @@ app.use(bodyParser.json())
 
 // Configuring the database
 const dbConfig = require('./config/database.config.js');
+
 const mongoose = require('mongoose');
 
 
@@ -30,21 +31,19 @@ mongoose.connect(dbConfig.url)
     process.exit();
 });
 
+require('./app/controllers/alut.temp.user.controllers.js')(app)
+require('./app/routes/alut.child.routes.js')(app);
+require('./app/routes/alut.user.routes.js')(app);
 
 
 
-app.get('/', function(request, response){
+app.post('/', register.registerRequest);
 
-});
+
 
 app.get('/approved', function(request, response){
 
 });
-
-
-
-
-
 
 // ........
 
