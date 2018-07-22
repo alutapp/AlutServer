@@ -2,11 +2,6 @@
 var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , User = require('./../model/User')
-var logger = require('../logs/logger');
-	logger.setLevel('debug');
-	
-//var sprintf = require('sprintf-js').sprintf;
-
 module.exports = {
 
     getUser: function (email, callback) {
@@ -19,11 +14,11 @@ module.exports = {
         console.log('test create user ');
     
         var user = new User();
-        user.idNumber= '123',
-        user.password = req.body.password;
-        user.firstName= req.body.firstName;
-        user.lastName = req.body.lastName;
-        user.email = req.body.email;    
+        user.idNumber= "11",
+        user.password = "password";
+        user.firstName= "mor";
+        user.lastName = "zohar";
+        user.email = "m@gmail.com";    
 
         user.save(function (err) {
             if (err) {
