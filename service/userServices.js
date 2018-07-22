@@ -1,42 +1,46 @@
 
 var userDao = require('../dataAccess/userDao');
+var logger = require('../logs/logger');
+logger.setLevel('debug');
+
+var sprintf = require('sprintf-js').sprintf;
 
 
 exports.IsEmailExist = function (req, res) {
-  if (req.params.email == null){
+  if (req.body.email == null){
     res.send("ERROR email is null")
   }
-  userDao.getUserByEmail(req.params.email, function(err, user) {
+  userDao.getUserByEmail(req.body.email, function(err, user) {
     if (err) {
       logger.error('IsEmailExist service Err' + err);
       res.json({
         Error: err
       });      
     }else if (user == null){
-      logger.info('IsEmailExist service, not found user with email: ' + req.params.email);
+      logger.info('IsEmailExist service, not found user with email: ' + req.body.email);
       res.send(false);
     } else if (user){
-      logger.info('IsEmailExist service, found user with email: ' + req.params.email);
+      logger.info('IsEmailExist service, found user with email: ' + req.body.email);
       res.send(true);
     }
   })
 }
 
 exports.SignIn = function (req, res) {
-    logger.debug('SignIn email: ' + req.params.email + ' password '+ req.params.password);
-    if (req.params.email == null || req.params.password == null){
+    logger.debug('SignIn email: ' + req.body.email + ' password '+ req.body.password);
+    if (req.body.email == null || req.body.password == null){
       res.send("ERROR email or password are null")
     }
 
-    userDao.getUserByEmailAndPassword(req.params.email,  req.params.password, function(err, user) {
+    userDao.getUserByEmailAndPassword(req.body.email,  req.body.password, function(err, user) {
       if (err) {
         logger.error('SignIn Err' + err);
         res.json({
           Error: "error in sign in"
         });      
       }else if (user == null){
-        logger.error("ERROR: there is no user with email " + req.params.email + " and password " + req.params.password);
-        res.send("ERROR: there is no user with email " + req.params.email + " and password " + req.params.password);
+        logger.error("ERROR: there is no user with email " + req.body.email + " and password " + req.body.password);
+        res.send("ERROR: there is no user with email " + req.body.email + " and password " + req.body.password);
       } else {
         logger.info('SignIn Success ' + user);
   
@@ -46,7 +50,7 @@ exports.SignIn = function (req, res) {
   };
 
   exports.getUser = function (req, res) {
-    userDao.getUserByEmailAndPassword('m@gmail.com', 'password', function(err, user) {
+    userDao.getUserByEmailAndPassword(req.body.email, req.body.password, function(err, user) {
       if (err) {
         logger.error('get User Err' + err);
         res.json({
@@ -58,4 +62,32 @@ exports.SignIn = function (req, res) {
         res.json(user);
       }
     });
+  }
+
+  exports.addUser = function (req, res) {
+    
+    
+    // userDao.getUserByEmailAndPassword(req.body.email, req.body.password, function(err, user) {
+      // if (user) {
+      //   logger.error('you triyng to add ' + user.firstName + ' is exsit already');
+      //   res.json({
+      //     error : 'the user'+user.firstName +' is exsit already'
+      //   });
+
+      // } else {
+
+        logger.info('start Add User');
+        userDao.createUser(req,  function(err, res) {
+          if (err) {
+            logger.error('get User Err' + err);
+            res.json({
+              error: err
+            });
+          } else {
+            logger.info('get user Success');
+      
+            res.json(res);
+          }
+        });
+
   }

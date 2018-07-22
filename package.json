@@ -18,8 +18,17 @@
     "gulp": "^3.9.1",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
-    "mongoose": "^5.1.1",
     "morgan": "~1.9.0",
     "nodemailer": "^4.6.7"
+    "ejs": "^2.5.9",
+    "logger": "~0.0.1",
+    "mongodb": "^3.0.7",
+    "mongoose": "^5.1.7",
+    "sprintf-js": "~1.1.1",
+    "node-gcm": "1.0.2",
+    "apns": "0.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
   }
 }
