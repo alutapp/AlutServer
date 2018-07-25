@@ -30,7 +30,12 @@ exports.registerRequest = (req, res) => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the Temp User."
         });
+        res.status(500).send({
+            message: err.message || "Some error occurred while creating the Temp User."
+        });
+
     });
+    
     //tempUser.password = generatepassword.generateTempPassword;
     sendMailRequestToAppManager.sendMailRequest(req.body.email,req.body.id,req.body.firstName,req.body.lastName);
 

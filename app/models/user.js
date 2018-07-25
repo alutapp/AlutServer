@@ -25,6 +25,7 @@ var userSchema = new Schema({
     },
     phone : String,
     childsId : [{type: String,required:true}],
+    /*
     child : {
         type: ObjectId,
         ref: 'Child'    
@@ -37,6 +38,7 @@ var userSchema = new Schema({
         type: ObjectId,
         ref: 'Child'    
     }
+    */
 });
 
 module.exports = mongoose.model('User', userSchema)
