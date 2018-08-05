@@ -8,7 +8,7 @@ var gcm = require('node-gcm');
 //   platform:android }
 // { deviceId:abcdefghijklmnopqrstuvwxyz ,
 //   platform:ios }
-server.post('/register', (req, res, next) => {
+notifServer.server.post('/register', (req, res, next) => {
     let body = JSON.parse(req.body);
 
     if (body) {
