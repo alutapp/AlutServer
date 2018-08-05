@@ -14,8 +14,9 @@ const routes = require('express').Router();
 const users = require('./alut.user.routes.js');
 const tempUsers = require('./alut.registration.routes.js'); 
 const childs =require('./alut.child.routes.js');
+const devices = require('./alut.notifications.js')
 
-
+routes.use('/devices', devices);
 routes.use('/users', users);
 routes.use('/tempusers', tempUsers);
 routes.use('/childs',childs);
