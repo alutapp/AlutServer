@@ -38,7 +38,7 @@ exports.create = (req, res) => {
 };
 
 exports.login = (req, res) => {
-    User.find({email:req.params.userEmail,password:req.params.userPassword})
+    User.find({email:req.body.userEmail,password:req.body.userPassword})
     .then(user => {
         res.send(user);
     }).catch(err => {

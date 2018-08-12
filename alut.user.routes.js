@@ -6,7 +6,7 @@ const User = require('../controllers/alut.user.controllers.js');
     users.post('/createUser', User.create);
 
     // User login
-    users.get('/login/:userEmail/:userPassword',User.login);
+    users.post('/login',User.login);
 
     // Retrieve all User
     users.get('/findAllUsers', User.findAll);
