@@ -1,7 +1,6 @@
 const users = require('express').Router();
 const User = require('../controllers/alut.user.controllers.js');
 
-
     // Create a new User
     users.post('/createUser', User.create);
 
@@ -14,7 +13,7 @@ const User = require('../controllers/alut.user.controllers.js');
     // Retrieve a single User with UserId
     users.get('/findOneUser/:userId', User.findOne);
 
-    // Add friend to User 
+    //Add friend to User 
     users.get('/addFriend/:userId/:friendId', User.addFriend);
 
     // Remove friend from user
