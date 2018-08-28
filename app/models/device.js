@@ -8,5 +8,4 @@ var DeviceSchema = new Schema({
     platform : { type : String, required : true }
 });
 
-DeviceSchema.set('autoIndex', true)
 module.exports = mongoose.model('Device', DeviceSchema);

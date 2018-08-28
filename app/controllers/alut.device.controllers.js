@@ -1,20 +1,27 @@
 const Device = require('../models/device.js')
 const notification = require('../methods/notification.send.js')
+var firebase = require('firebase');
+var serviceAccount = require('../../notifications/firebase-important.json');
 
 exports.register = (req, res) => {
-    let body = JSON.parse(req.body);
-
+    try{
+        let body = req.body;//JSON.parse(req.body);
+    
     if (body) {
         let newDevice = new Device(body);
+        console.log(newDevice);
         newDevice.save(err => {
             if (!err) {
-                console.log("Device Regsitered!");
                 res.sendStatus(200);
             } else {
-                console.log("Device registration failed!");
                 res.sendStatus(500);
             }
         });
+        }
+    }
+    catch(err){
+        console.log('Error occured:\n'+err);
+        res.sendStatus(500);
     }
 };
 
@@ -32,11 +39,16 @@ exports.sendAll = (req, res) => {
                         res.sendStatus(500);
                     }
                 } else if (device.platform === 'android') {
+                    console.log("Adding device: "+device)
                     androidDevices.push(device.deviceId);
                 }
             });
             try{
-                notification.sendAndroid(androidDevices, 'Hello World', 'Android notification tests');
+                console.log("Sending for all devices: "+androidDevices)
+                androidDevices.forEach(deviceID => {
+                    notification.sendAndroid(deviceID, 'Hello World', 'Android notification tests');
+                });
+                
                 res.sendStatus(200);
             }
             catch(err){
@@ -75,7 +87,7 @@ exports.sendFriendRequest = (req, res) => {
         res.sendStatus(200);
     }
     else if(device.platform == 'android') {
-        notification.sendAndroid(device, title, body);
+        notification.sendAndroid(device.deviceId, title, body);
         res.sendStatus(200);
     }
     else {
